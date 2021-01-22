@@ -78,69 +78,93 @@ class _DetailPageState extends State<DetailPage> {
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-          ClipPath(
-            key: _key,
-            clipper: AppClipper(
-                cornerSize: 0, diagonalHeight: 180, roundedBottom: false),
-            child: Container(
-              //Add this.
-              color: Colors.white,
-              padding: EdgeInsets.only(top: 180, left: 16, right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 300,
-                    child: Text(
-                      "${widget.shoeModel.name}",
-                      style: TextStyle(
-                        fontSize: 32,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  _buildRating(),
-                  SizedBox(height: 24),
-                  Text(
-                    "DETAILS",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    "${widget.shoeModel.desc}",
-                    style: TextStyle(fontSize: 18, color: Colors.black38),
-                  ),
-                  SizedBox(height: 24),
-                  Text(
-                    "COLOR OPTIONS",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Row(
+          Stack(
+            children: [
+              ClipPath(
+                key: _key,
+                clipper: AppClipper(
+                    cornerSize: 0, diagonalHeight: 250, roundedBottom: false),
+                child: Container(
+                  //Add this.
+                  color: Colors.white,
+                  padding: EdgeInsets.only(top: 230, left: 16, right: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildColorOption(AppColors.blueColor),
-                      _buildColorOption(AppColors.greenColor),
-                      _buildColorOption(AppColors.orangeColor),
-                      _buildColorOption(AppColors.redColor),
-                      _buildColorOption(AppColors.yellowColor),
+                      Container(
+                        width: 300,
+                        child: Text(
+                          "${widget.shoeModel.name}",
+                          style: TextStyle(
+                            fontSize: 32,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      _buildRating(),
+                      SizedBox(height: 24),
+                      Text(
+                        "DETAILS",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "${widget.shoeModel.desc}",
+                        style: TextStyle(fontSize: 18, color: Colors.black38),
+                      ),
+                      SizedBox(height: 24),
+                      Text(
+                        "COLOR OPTIONS",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          _buildColorOption(AppColors.blueColor),
+                          _buildColorOption(AppColors.greenColor),
+                          _buildColorOption(AppColors.orangeColor),
+                          _buildColorOption(AppColors.redColor),
+                          _buildColorOption(AppColors.yellowColor),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Offstage(
+                          offstage: _isOffstage,
+                          child: Container(
+                            height: _offsetHeight,
+                            color: Colors.white,
+                          ))
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Offstage(
-                      offstage: _isOffstage,
-                      child: Container(
-                        height: _offsetHeight,
-                        color: Colors.white,
-                      ))
-                ],
+                ),
               ),
-            ),
+              Center(
+                child: Hero(
+                  tag: "hero${widget.shoeModel.imgPath}",
+                  child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                        top: 30,
+                      ),
+                      constraints: BoxConstraints(minWidth: 100, maxWidth: 300),
+                      // alignment: Alignment.center,
+                      child: Transform.rotate(
+                        angle: -math.pi / 100,
+                        child: Image(
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          image:
+                              AssetImage("assets/${widget.shoeModel.imgPath}"),
+                        ),
+                      )),
+                ),
+              ),
+            ],
           ),
         ],
       ),
