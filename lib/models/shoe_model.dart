@@ -9,9 +9,6 @@ class ShoeModel {
   final String brand;
   final String imgPath;
 
-  /**
-   * Constructor
-   */
   ShoeModel({
     this.name,
     this.price,

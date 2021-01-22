@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:ecommerce_shoes_shop/core/const.dart';
 import 'package:ecommerce_shoes_shop/core/flutter_icons.dart';
 import 'package:ecommerce_shoes_shop/models/shoe_model.dart';
@@ -15,11 +17,54 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  GlobalKey _key = GlobalKey();
+
+  double valueHeight = 0;
+  bool _isOffstage = true;
+  double _offsetHeight = 0;
+  AppBar _appBar = AppBar();
+
+  _getSizes() {
+    if (valueHeight == 0) {
+      final RenderBox renderBoxRed = _key.currentContext.findRenderObject();
+      final sizeRed = renderBoxRed.size;
+      valueHeight = sizeRed.height;
+
+      if (valueHeight <= MediaQuery.of(context).size.height) {
+        double heightApp = _appBar.preferredSize.height;
+        double padding = MediaQuery.of(context).padding.bottom;
+        double paddingTop = MediaQuery.of(context).padding.top;
+
+        double _tempoffsetHeight = MediaQuery.of(context).size.height -
+            valueHeight -
+            heightApp -
+            100 -
+            padding -
+            paddingTop;
+
+        setState(() {
+          _isOffstage = false;
+          _offsetHeight = _tempoffsetHeight;
+        });
+      }
+    }
+  }
+
+  _afterLayout(_) {
+    _getSizes();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: widget.shoeModel.color,
-      appBar: AppBar(
+      appBar: _appBar = AppBar(
         backgroundColor: widget.shoeModel.color,
         elevation: 0,
         title: Text("Categories"),
@@ -30,93 +75,92 @@ class _DetailPageState extends State<DetailPage> {
           },
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              child: Container(
-                height: MediaQuery.of(context).size.height * .75,
-                width: MediaQuery.of(context).size.width,
-                child: ClipPath(
-                  clipper: AppClipper(
-                      cornerSize: 50,
-                      diagonalHeight: 180,
-                      roundedBottom: false),
-                  child: Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.only(top: 180, left: 16, right: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 300,
-                          child: Text(
-                            "${widget.shoeModel.name}",
-                            style: TextStyle(
-                              fontSize: 32,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        _buildRating(),
-                        SizedBox(height: 24),
-                        Text(
-                          "DETAILS",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          "${widget.shoeModel.desc}",
-                          style: TextStyle(fontSize: 18, color: Colors.black38),
-                        ),
-                        SizedBox(height: 24),
-                        Text(
-                          "COLOR OPTIONS",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          children: [
-                            _buildColorOption(AppColors.blueColor),
-                            _buildColorOption(AppColors.greenColor),
-                            _buildColorOption(AppColors.orangeColor),
-                            _buildColorOption(AppColors.redColor),
-                            _buildColorOption(AppColors.yellowColor),
-                          ],
-                        )
-                      ],
+      body: ListView(
+        physics: ClampingScrollPhysics(),
+        children: [
+          ClipPath(
+            key: _key,
+            clipper: AppClipper(
+                cornerSize: 0, diagonalHeight: 180, roundedBottom: false),
+            child: Container(
+              //Add this.
+              color: Colors.white,
+              padding: EdgeInsets.only(top: 180, left: 16, right: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 300,
+                    child: Text(
+                      "${widget.shoeModel.name}",
+                      style: TextStyle(
+                        fontSize: 32,
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: _buildBottom(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: Hero(
-                tag: "hero${widget.shoeModel.imgPath}",
-                child: Transform.rotate(
-                  angle: -math.pi / 7,
-                  child: Image(
-                    width: MediaQuery.of(context).size.width * .85,
-                    image: AssetImage("assets/${widget.shoeModel.imgPath}"),
+                  SizedBox(height: 16),
+                  _buildRating(),
+                  SizedBox(height: 24),
+                  Text(
+                    "DETAILS",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
+                  SizedBox(height: 16),
+                  Text(
+                    "${widget.shoeModel.desc}",
+                    style: TextStyle(fontSize: 18, color: Colors.black38),
+                  ),
+                  SizedBox(height: 24),
+                  Text(
+                    "COLOR OPTIONS",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      _buildColorOption(AppColors.blueColor),
+                      _buildColorOption(AppColors.greenColor),
+                      _buildColorOption(AppColors.orangeColor),
+                      _buildColorOption(AppColors.redColor),
+                      _buildColorOption(AppColors.yellowColor),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Offstage(
+                      offstage: _isOffstage,
+                      child: Container(
+                        height: _offsetHeight,
+                        color: Colors.white,
+                      ))
+                ],
               ),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 1,
+              blurRadius: 10,
             )
           ],
+        ),
+        child: BottomAppBar(
+          child: _buildBottom(),
         ),
       ),
     );
@@ -125,6 +169,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget _buildBottom() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+      height: 100,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: Colors.white,
