@@ -18,25 +18,23 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   GlobalKey _key = GlobalKey();
-  GlobalKey _key2 = GlobalKey();
 
-  double valueHeightComponent = 0;
-
+  double _valueHeightComponent = 0;
   bool _isOffstage = true;
   double _offsetHeight = 0;
   AppBar _appBar = AppBar();
 
   _getSizes() {
-    if (valueHeightComponent == 0) {
+    if (_valueHeightComponent == 0) {
       final RenderBox renderBoxRed = _key.currentContext.findRenderObject();
       final sizeRed = renderBoxRed.size;
-      valueHeightComponent = sizeRed.height;
+      _valueHeightComponent = sizeRed.height;
 
       double heightAppBar = _appBar.preferredSize.height;
       double paddingBottom = MediaQuery.of(context).padding.bottom;
       double paddingTop = MediaQuery.of(context).padding.top;
 
-      double total = valueHeightComponent +
+      double total = _valueHeightComponent +
           heightAppBar +
           paddingBottom +
           paddingTop +
@@ -157,7 +155,6 @@ class _DetailPageState extends State<DetailPage> {
                   child: Hero(
                     tag: "hero${widget.shoeModel.imgPath}",
                     child: Container(
-                        key: _key2,
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(
                           top: 30,
