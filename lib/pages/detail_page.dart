@@ -18,33 +18,41 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   GlobalKey _key = GlobalKey();
+  GlobalKey _key2 = GlobalKey();
 
-  double valueHeight = 0;
+  double valueHeightComponent = 0;
+
   bool _isOffstage = true;
   double _offsetHeight = 0;
   AppBar _appBar = AppBar();
 
   _getSizes() {
-    if (valueHeight == 0) {
+    if (valueHeightComponent == 0) {
       final RenderBox renderBoxRed = _key.currentContext.findRenderObject();
       final sizeRed = renderBoxRed.size;
-      valueHeight = sizeRed.height;
+      valueHeightComponent = sizeRed.height;
 
-      if (valueHeight <= MediaQuery.of(context).size.height) {
-        double heightApp = _appBar.preferredSize.height;
-        double padding = MediaQuery.of(context).padding.bottom;
-        double paddingTop = MediaQuery.of(context).padding.top;
+      double heightAppBar = _appBar.preferredSize.height;
+      double paddingBottom = MediaQuery.of(context).padding.bottom;
+      double paddingTop = MediaQuery.of(context).padding.top;
 
-        double _tempoffsetHeight = MediaQuery.of(context).size.height -
-            valueHeight -
-            heightApp -
-            100 -
-            padding -
-            paddingTop;
+      double total = valueHeightComponent +
+          heightAppBar +
+          paddingBottom +
+          paddingTop +
+          100;
+
+      if (total <= MediaQuery.of(context).size.height) {
+        double _tempoffsetHeight = MediaQuery.of(context).size.height - total;
 
         setState(() {
           _isOffstage = false;
           _offsetHeight = _tempoffsetHeight;
+        });
+      } else {
+        setState(() {
+          _isOffstage = true;
+          _offsetHeight = 0;
         });
       }
     }
@@ -144,24 +152,28 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
               ),
-              Center(
-                child: Hero(
-                  tag: "hero${widget.shoeModel.imgPath}",
-                  child: Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(
-                        top: 30,
-                      ),
-                      constraints: BoxConstraints(minWidth: 100, maxWidth: 300),
-                      // alignment: Alignment.center,
-                      child: Transform.rotate(
-                        angle: -math.pi / 100,
-                        child: Image(
-                          width: MediaQuery.of(context).size.width * 0.75,
-                          image:
-                              AssetImage("assets/${widget.shoeModel.imgPath}"),
+              Positioned(
+                child: Center(
+                  child: Hero(
+                    tag: "hero${widget.shoeModel.imgPath}",
+                    child: Container(
+                        key: _key2,
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(
+                          top: 30,
                         ),
-                      )),
+                        constraints:
+                            BoxConstraints(minHeight: 50, maxHeight: 170),
+                        // alignment: Alignment.center,
+                        child: Transform.rotate(
+                          angle: -math.pi / 100,
+                          child: Image(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            image: AssetImage(
+                                "assets/${widget.shoeModel.imgPath}"),
+                          ),
+                        )),
+                  ),
                 ),
               ),
             ],
