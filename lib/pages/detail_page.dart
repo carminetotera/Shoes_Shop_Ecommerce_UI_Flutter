@@ -31,12 +31,12 @@ class _DetailPageState extends State<DetailPage> {
       _valueHeightComponent = sizeRed.height;
 
       double heightAppBar = _appBar.preferredSize.height;
-      double paddingBottom = MediaQuery.of(context).padding.bottom;
+      //double paddingBottom = MediaQuery.of(context).padding.bottom;
       double paddingTop = MediaQuery.of(context).padding.top;
 
       double total = _valueHeightComponent +
           heightAppBar +
-          paddingBottom +
+          //paddingBottom +
           paddingTop +
           100;
 
@@ -179,10 +179,6 @@ class _DetailPageState extends State<DetailPage> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -192,9 +188,7 @@ class _DetailPageState extends State<DetailPage> {
             )
           ],
         ),
-        child: BottomAppBar(
-          child: _buildBottom(),
-        ),
+        child: _buildBottom(),
       ),
     );
   }

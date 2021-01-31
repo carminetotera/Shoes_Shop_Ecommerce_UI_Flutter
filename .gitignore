@@ -34,6 +34,7 @@ launch.json
 
 # Visual Studio Code related
 .vscode/
+test/
 
 # Flutter/Dart/Pub related
 **/doc/api/
