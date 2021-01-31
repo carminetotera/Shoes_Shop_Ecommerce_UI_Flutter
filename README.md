@@ -1,16 +1,14 @@
-# ecommerce_shoes_shop
+# Shoes Shop E-Commerce UI
 
-A new Flutter project.
+<ins>Shoes Shop E-Commerce UI with Flutter Framework</ins>
 
-## Getting Started
+Developed in Flutter by Carmine Totera
 
-This project is a starting point for a Flutter application.
+Designed by Piko Rizky Dwinanto
 
-A few resources to get you started if this is your first Flutter project:
+Link Dribbble - Design Project: https://dribbble.com/shots/7157110-Shoes-Shop-Mobile-App
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
+---
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
