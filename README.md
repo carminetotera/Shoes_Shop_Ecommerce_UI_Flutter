@@ -2,7 +2,7 @@
 
 <ins>Shoes Shop E-Commerce UI with Flutter Framework</ins>
 
-Developed in Flutter by Carmine Totera
+Developed by Carmine Totera
 
 Designed by Piko Rizky Dwinanto
 
