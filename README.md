@@ -6,6 +6,10 @@ Developed in Flutter by Carmine Totera
 
 Designed by Piko Rizky Dwinanto
 
+
+![alt text](https://github.com/carminetotera/Images/blob/master/shoes-shop-ecommerce-flutter.png?raw=true)
+
+
 Link Dribbble - Design Project: https://dribbble.com/shots/7157110-Shoes-Shop-Mobile-App
 
 ---
