@@ -1,6 +1,6 @@
 # Shoes Shop E-Commerce UI
 
-<ins>Shoes Shop E-Commerce UI Made with Flutter Framework</ins>
+<ins>Shoes Shop E-Commerce UI Made with Flutter</ins>
 
 ![alt text](https://github.com/carminetotera/Images/blob/master/shoes-shop-ecommerce-flutter.png?raw=true)
 
